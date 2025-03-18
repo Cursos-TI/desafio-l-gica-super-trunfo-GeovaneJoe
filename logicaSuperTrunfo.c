@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 void compararAtributo(const char* atributo, const char* cidade1, const char* estado1, unsigned long pop1, const char* cidade2, const char* estado2, unsigned long pop2, int* pontos1, int* pontos2) {
+    printf("\n");
     printf("Comparação de cartas (Atributo: %s):\n", atributo);
     printf("Carta 1 - %s (%s): %lu\n", cidade1, estado1, pop1);
     printf("Carta 2 - %s (%s): %lu\n", cidade2, estado2, pop2);
