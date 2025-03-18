@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void compararAtributo(const char* atributo, const char* cidade1, const char* estado1, unsigned long pop1, const char* cidade2, const char* estado2, unsigned long pop2, int* pontos1, int* pontos2) {
+// Compara um atributo entre duas cartas e retorna o vencedor (1 ou 2), ou 0 em caso de empate
+int compararAtributo(const char* atributo, const char* cidade1, const char* estado1, unsigned long pop1, const char* cidade2, const char* estado2, unsigned long pop2) {
     printf("\n");
     printf("Comparação de cartas (Atributo: %s):\n", atributo);
     printf("Carta 1 - %s (%s): %lu\n", cidade1, estado1, pop1);
@@ -10,14 +11,14 @@ void compararAtributo(const char* atributo, const char* cidade1, const char* est
     // Comparando População, Área, PIB ou PIB per Capita
     if (pop1 > pop2) {
         printf("Resultado: Carta 1 (%s) venceu!\n", cidade1);
-        (*pontos1)++;
+        return 1;  // Carta 1 venceu
     } else if (pop1 < pop2) {
         printf("Resultado: Carta 2 (%s) venceu!\n", cidade2);
-        (*pontos2)++;
+        return 2;  // Carta 2 venceu
     } else {
         printf("Resultado: Empate!\n");
+        return 0;  // Empate
     }
-    printf("\n");
 }
 
 int main() {
@@ -143,54 +144,66 @@ int main() {
     int pontosCarta1 = 0, pontosCarta2 = 0;
 
     // Comparação do primeiro atributo
+    int vencedor1 = 0;
     switch (atributo1) {
         case 1:
-            compararAtributo("População", NomeCidade1, Estado1, Populacao1, NomeCidade2, Estado2, Populacao2, &pontosCarta1, &pontosCarta2);
+            vencedor1 = compararAtributo("População", NomeCidade1, Estado1, Populacao1, NomeCidade2, Estado2, Populacao2);
             break;
         case 2:
-            compararAtributo("Área", NomeCidade1, Estado1, Area1, NomeCidade2, Estado2, Area2, &pontosCarta1, &pontosCarta2);
+            vencedor1 = compararAtributo("Área", NomeCidade1, Estado1, Area1, NomeCidade2, Estado2, Area2);
             break;
         case 3:
-            compararAtributo("PIB", NomeCidade1, Estado1, PIB1, NomeCidade2, Estado2, PIB2, &pontosCarta1, &pontosCarta2);
+            vencedor1 = compararAtributo("PIB", NomeCidade1, Estado1, PIB1, NomeCidade2, Estado2, PIB2);
             break;
         case 4:
             // Comparação especial para Densidade Populacional (menor vence)
             if (DensidadePopulacional1 < DensidadePopulacional2) {
                 printf("Resultado: Carta 1 (%s) venceu! Menor Densidade Populacional.\n", NomeCidade1);
-                pontosCarta1++;
+                vencedor1 = 1;
             } else if (DensidadePopulacional1 > DensidadePopulacional2) {
                 printf("Resultado: Carta 2 (%s) venceu! Menor Densidade Populacional.\n", NomeCidade2);
-                pontosCarta2++;
+                vencedor1 = 2;
             } else {
                 printf("Resultado: Empate! Ambas as cidades têm a mesma Densidade Populacional.\n");
+                vencedor1 = 0;
             }
             break;
     }
 
+    // Atualiza os pontos
+    if (vencedor1 == 1) pontosCarta1++;
+    else if (vencedor1 == 2) pontosCarta2++;
+
     // Comparação do segundo atributo
+    int vencedor2 = 0;
     switch (atributo2) {
         case 1:
-            compararAtributo("População", NomeCidade1, Estado1, Populacao1, NomeCidade2, Estado2, Populacao2, &pontosCarta1, &pontosCarta2);
+            vencedor2 = compararAtributo("População", NomeCidade1, Estado1, Populacao1, NomeCidade2, Estado2, Populacao2);
             break;
         case 2:
-            compararAtributo("Área", NomeCidade1, Estado1, Area1, NomeCidade2, Estado2, Area2, &pontosCarta1, &pontosCarta2);
+            vencedor2 = compararAtributo("Área", NomeCidade1, Estado1, Area1, NomeCidade2, Estado2, Area2);
             break;
         case 3:
-            compararAtributo("PIB", NomeCidade1, Estado1, PIB1, NomeCidade2, Estado2, PIB2, &pontosCarta1, &pontosCarta2);
+            vencedor2 = compararAtributo("PIB", NomeCidade1, Estado1, PIB1, NomeCidade2, Estado2, PIB2);
             break;
         case 4:
             // Comparação especial para Densidade Populacional (menor vence)
             if (DensidadePopulacional1 < DensidadePopulacional2) {
                 printf("Resultado: Carta 1 (%s) venceu! Menor Densidade Populacional.\n", NomeCidade1);
-                pontosCarta1++;
+                vencedor2 = 1;
             } else if (DensidadePopulacional1 > DensidadePopulacional2) {
                 printf("Resultado: Carta 2 (%s) venceu! Menor Densidade Populacional.\n", NomeCidade2);
-                pontosCarta2++;
+                vencedor2 = 2;
             } else {
                 printf("Resultado: Empate! Ambas as cidades têm a mesma Densidade Populacional.\n");
+                vencedor2 = 0;
             }
             break;
     }
+
+    // Atualiza os pontos
+    if (vencedor2 == 1) pontosCarta1++;
+    else if (vencedor2 == 2) pontosCarta2++;
 
     // Resultado final
     printf("\n================= RESULTADO =================\n");
